@@ -9,7 +9,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `manager`
 --
-CREATE DATABASE `catalog` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE `manager` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `manager`;
 
 -- --------------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `meeting` (
 -- Table structure for table `toDo`
 --
 
-CREATE TABLE IF NOT EXISTS `products` (
+CREATE TABLE IF NOT EXISTS `toDo` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
