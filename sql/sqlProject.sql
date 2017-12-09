@@ -20,8 +20,8 @@ USE `manager`;
 
 CREATE TABLE IF NOT EXISTS `meeting` (
   `meeting_id` smallint(5) NOT NULL AUTO_INCREMENT,
-  `name` varchar2(30) DEFAULT NULL,
-  `description` varchar2(100) DEFAULT NULL,
+  `name` varchar(30) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
   `location` varchar2(25),
   `meetingDate` datetime,
   `createdAt` timestamp,
