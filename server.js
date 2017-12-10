@@ -3,7 +3,7 @@ var Sequelize = require("sequelize")
 var nodeadmin = require("nodeadmin")
 
 //connect to mysql database
-var sequelize = new Sequelize('catalog', 'root', '', {
+var sequelize = new Sequelize('manager', 'root', '', {
     dialect:'mysql',
     host:'localhost'
 })
@@ -18,14 +18,14 @@ var toDo = sequelize.define('toDo', {
     description: Sequelize.STRING
 })
 
-var meeting = sequelize.define('meeting', {
+var meet = sequelize.define('meeting', {
     name: Sequelize.STRING,
-    category_id: Sequelize.INTEGER,
+    meeting_id: Sequelize.INTEGER,
     description: Sequelize.STRING,
 	
 })
 
-meeting.belongsTo(toDo, {foreignKey: 'category_id', targetKey: 'id'})
+meeting.belongsTo(toDo, {foreignKey: 'meeting_id', targetKey: 'id'})
 //toDo.hasMany(meeting)
 
 var app = express()
@@ -50,7 +50,7 @@ app.get('/toDo', function(request, response) {
 // get one category by id
 app.get('/toDo/:id', function(request, response) {
     toDo.findOne({where: {id:request.params.id}}).then(function(category) {
-        if(category) {
+        if() {
             response.status(200).send(category)
         } else {
             response.status(404).send()
@@ -58,18 +58,18 @@ app.get('/toDo/:id', function(request, response) {
     })
 })
 
-//create a new category
+//create a new meeting
 app.post('/toDo', function(request, response) {
-    toDo.create(request.body).then(function(category) {
-        response.status(201).send(category)
+    toDo.create(request.body).then(function(meet) {
+        response.status(201).send(meet)
     })
 })
 
 app.put('/toDo/:id', function(request, response) {
-    toDo.findById(request.params.id).then(function(category) {
-        if(category) {
-            category.update(request.body).then(function(category){
-                response.status(201).send(category)
+    toDo.findById(request.params.id).then(function(meet) {
+        if(meet) {
+            meet.update(request.body).then(function(meet){
+                response.status(201).send(meet)
             }).catch(function(error) {
                 response.status(200).send(error)
             })
@@ -80,9 +80,9 @@ app.put('/toDo/:id', function(request, response) {
 })
 
 app.delete('/toDo/:id', function(request, response) {
-    toDo.findById(request.params.id).then(function(category) {
-        if(category) {
-            category.destroy().then(function(){
+    toDo.findById(request.params.id).then(function(meet) {
+        if(meet) {
+            meet.destroy().then(function(){
                 response.status(204).send()
             })
         } else {
@@ -96,36 +96,36 @@ app.get('/meeting', function(request, response) {
         {
             include: [{
                 model: toDo,
-                where: { id: Sequelize.col('meeting.category_id') }
+                where: { id: Sequelize.col('meet.meeting_id') }
             }]
         }
         
         ).then(
-            function(meeting) {
-                response.status(200).send(meeting)
+            function(meet) {
+                response.status(200).send(meet)
             }
         )
 })
 
 app.get('/meeting/:id', function(request, response) {
     meeting.findById(request.params.id).then(
-            function(meeting) {
-                response.status(200).send(meeting)
+            function(meet) {
+                response.status(200).send(meet)
             }
         )
 })
 
 app.post('/meeting', function(request, response) {
-    meeting.create(request.body).then(function(meeting) {
-        response.status(201).send(meeting)
+    meeting.create(request.body).then(function(meet) {
+        response.status(201).send(meet)
     })
 })
 
 app.put('/meeting/:id', function(request, response) {
-    meeting.findById(request.params.id).then(function(meeting) {
-        if(meeting) {
-            meeting.update(request.body).then(function(meeting){
-                response.status(201).send(meeting)
+    meeting.findById(request.params.id).then(function(meet) {
+        if(meet) {
+            meeting.update(request.body).then(function(meet){
+                response.status(201).send(meet)
             }).catch(function(error) {
                 response.status(200).send(error)
             })
@@ -136,8 +136,8 @@ app.put('/meeting/:id', function(request, response) {
 })
 
 app.delete('/meeting/:id', function(request, response) {
-    meeting.findById(request.params.id).then(function(meeting) {
-        if(meeting) {
+    meeting.findById(request.params.id).then(function(meet) {
+        if(meet) {
             meeting.destroy().then(function(){
                 response.status(204).send()
             })
@@ -149,8 +149,8 @@ app.delete('/meeting/:id', function(request, response) {
 
 app.get('/toDo/:id/meeting', function(request, response) {
     meeting.findAll({where:{id: request.params.id}}).then(
-            function(meeting) {
-                response.status(200).send(meeting)
+            function(meet) {
+                response.status(200).send(meet)
             }
         )
 })
