@@ -18,6 +18,8 @@ var meet = sequelize.define('meetings', {
     description: Sequelize.STRING
 })
 
+var unirest= require('unirest')
+
 var todos = sequelize.define('toDo', {
     name: Sequelize.STRING,
     meeting_id: Sequelize.INTEGER,
@@ -155,5 +157,20 @@ app.get('/meetings/:id/toDo', function(request, response) {
             }
         )
 })
+
+app.get('/meetings', (req, res) => {
+    var category = req.query.category;
+    unirest.get("https://maps.googleapis.com/maps/api/timezone/json?location=39.6034810%2C-119.6822510&timestamp=1331766000&key=YOUR_API_KEY")
+        .header("API key", "AIzaSyD8C4O1riKMmWQ0gXNfk5RXcSsuHaF-R-Q")
+        .end(function (result) {
+            if (result) {
+                console.log(result.status, result.headers, result.body);
+                res.status(200).json(result);
+            } else {
+                res.status(500).send('error');
+            }
+        });
+})
+
 
 app.listen(8080)
