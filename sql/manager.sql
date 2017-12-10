@@ -18,7 +18,7 @@ USE `manager`;
 -- Table structure for table `meeting`
 --
 
-CREATE TABLE IF NOT EXISTS `meeting` (
+CREATE TABLE IF NOT EXISTS `meetings` (
   `id` smallint(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
