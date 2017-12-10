@@ -3,7 +3,7 @@ var Sequelize = require("sequelize")
 var nodeadmin = require("nodeadmin")
 
 //connect to mysql database
-var sequelize = new Sequelize('catalog', 'root', '', {
+var sequelize = new Sequelize('manager', 'root', '', {
     dialect:'mysql',
     host:'localhost'
 })
@@ -13,20 +13,21 @@ sequelize.authenticate().then(function(){
 })
 
 //define a new Model
-var toDo = sequelize.define('toDo', {
+var meet = sequelize.define('meetings', {
     name: Sequelize.STRING,
     description: Sequelize.STRING
 })
 
-var meeting = sequelize.define('meeting', {
+var todos = sequelize.define('toDo', {
     name: Sequelize.STRING,
-    category_id: Sequelize.INTEGER,
+    meeting_id: Sequelize.INTEGER,
     description: Sequelize.STRING,
-	
+    price: Sequelize.INTEGER,
+    image: Sequelize.STRING
 })
 
-meeting.belongsTo(toDo, {foreignKey: 'category_id', targetKey: 'id'})
-//toDo.hasMany(meeting)
+todos.belongsTo(meet, {foreignKey: 'category_id', targetKey: 'id'})
+//meet.hasMany(todos)
 
 var app = express()
 
@@ -39,17 +40,17 @@ app.use('/admin', express.static('admin'))
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 
-// get a list of toDo
-app.get('/toDo', function(request, response) {
-    toDo.findAll().then(function(toDo){
-        response.status(200).send(toDo)
+// get a list of meetings
+app.get('/meetings', function(request, response) {
+    meet.findAll().then(function(meetings){
+        response.status(200).send(meetings)
     })
         
 })
 
 // get one category by id
-app.get('/toDo/:id', function(request, response) {
-    toDo.findOne({where: {id:request.params.id}}).then(function(category) {
+app.get('/meetings/:id', function(request, response) {
+    meet.findOne({where: {id:request.params.id}}).then(function(category) {
         if(category) {
             response.status(200).send(category)
         } else {
@@ -59,14 +60,14 @@ app.get('/toDo/:id', function(request, response) {
 })
 
 //create a new category
-app.post('/toDo', function(request, response) {
-    toDo.create(request.body).then(function(category) {
+app.post('/meetings', function(request, response) {
+    meet.create(request.body).then(function(category) {
         response.status(201).send(category)
     })
 })
 
-app.put('/toDo/:id', function(request, response) {
-    toDo.findById(request.params.id).then(function(category) {
+app.put('/meetings/:id', function(request, response) {
+    meet.findById(request.params.id).then(function(category) {
         if(category) {
             category.update(request.body).then(function(category){
                 response.status(201).send(category)
@@ -79,8 +80,8 @@ app.put('/toDo/:id', function(request, response) {
     })
 })
 
-app.delete('/toDo/:id', function(request, response) {
-    toDo.findById(request.params.id).then(function(category) {
+app.delete('/meetings/:id', function(request, response) {
+    meet.findById(request.params.id).then(function(category) {
         if(category) {
             category.destroy().then(function(){
                 response.status(204).send()
@@ -91,41 +92,41 @@ app.delete('/toDo/:id', function(request, response) {
     })
 })
 
-app.get('/meeting', function(request, response) {
-    meeting.findAll(
+app.get('/toDo', function(request, response) {
+    todos.findAll(
         {
             include: [{
-                model: toDo,
-                where: { id: Sequelize.col('meeting.category_id') }
+                model: meet,
+                where: { id: Sequelize.col('toDo.category_id') }
             }]
         }
         
         ).then(
-            function(meeting) {
-                response.status(200).send(meeting)
+            function(toDo) {
+                response.status(200).send(toDo)
             }
         )
 })
 
-app.get('/meeting/:id', function(request, response) {
-    meeting.findById(request.params.id).then(
-            function(meeting) {
-                response.status(200).send(meeting)
+app.get('/toDo/:id', function(request, response) {
+    todos.findById(request.params.id).then(
+            function(product) {
+                response.status(200).send(product)
             }
         )
 })
 
-app.post('/meeting', function(request, response) {
-    meeting.create(request.body).then(function(meeting) {
-        response.status(201).send(meeting)
+app.post('/toDo', function(request, response) {
+    todos.create(request.body).then(function(product) {
+        response.status(201).send(product)
     })
 })
 
-app.put('/meeting/:id', function(request, response) {
-    meeting.findById(request.params.id).then(function(meeting) {
-        if(meeting) {
-            meeting.update(request.body).then(function(meeting){
-                response.status(201).send(meeting)
+app.put('/toDo/:id', function(request, response) {
+    todos.findById(request.params.id).then(function(product) {
+        if(product) {
+            product.update(request.body).then(function(product){
+                response.status(201).send(product)
             }).catch(function(error) {
                 response.status(200).send(error)
             })
@@ -135,10 +136,10 @@ app.put('/meeting/:id', function(request, response) {
     })
 })
 
-app.delete('/meeting/:id', function(request, response) {
-    meeting.findById(request.params.id).then(function(meeting) {
-        if(meeting) {
-            meeting.destroy().then(function(){
+app.delete('/toDo/:id', function(request, response) {
+    todos.findById(request.params.id).then(function(product) {
+        if(product) {
+            product.destroy().then(function(){
                 response.status(204).send()
             })
         } else {
@@ -147,10 +148,10 @@ app.delete('/meeting/:id', function(request, response) {
     })
 })
 
-app.get('/toDo/:id/meeting', function(request, response) {
-    meeting.findAll({where:{id: request.params.id}}).then(
-            function(meeting) {
-                response.status(200).send(meeting)
+app.get('/meetings/:id/toDo', function(request, response) {
+    todos.findAll({where:{category_id: request.params.id}}).then(
+            function(toDo) {
+                response.status(200).send(toDo)
             }
         )
 })
