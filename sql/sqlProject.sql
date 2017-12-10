@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `meeting` (
   `meetingDate` date,
   `createdAt` timestamp,
   `updatedAt` timestamp,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`meeting_id`),
   KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
