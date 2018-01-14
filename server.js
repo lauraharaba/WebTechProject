@@ -4,159 +4,166 @@ var nodeadmin = require("nodeadmin")
 
 //connect to mysql database
 var sequelize = new Sequelize('manager', 'root', '', {
-    dialect:'mysql',
-    host:'localhost'
+    dialect: 'mysql',
+    define: {
+        timestamps: false
+    }
 })
 
-sequelize.authenticate().then(function(){
+
+sequelize.authenticate().then(function () {
     console.log('Success')
 })
 
+
 //define a new Model
-var meet = sequelize.define('meetings', {
+var meet = sequelize.define('meeting', {
     name: Sequelize.STRING,
     description: Sequelize.STRING
+}, {
+    underscored: true
 })
 
-var unirest= require('unirest')
+var unirest = require('unirest')
 
-var todos = sequelize.define('toDo', {
+var todos = sequelize.define('todo', {
     name: Sequelize.STRING,
     meeting_id: Sequelize.INTEGER,
     description: Sequelize.STRING,
     price: Sequelize.INTEGER,
     image: Sequelize.STRING
+}, {
+    underscored: true
 })
 
-todos.belongsTo(meet, {foreignKey: 'category_id', targetKey: 'id'})
+todos.belongsTo(meet)//oricum aia facea implicit
 //meet.hasMany(todos)
-
+//sequelize.sync({force : true})
 var app = express()
 
 app.use('/nodeamin', nodeadmin(app))
 
 //access static files
-app.use(express.static('public'))
-app.use('/admin', express.static('admin'))
+
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 
-// get a list of meetings
-app.get('/meetings', function(request, response) {
-    meet.findAll().then(function(meetings){
-        response.status(200).send(meetings)
-    })
-        
-})
 
+// get a list of meetings
+app.get('/meetings', function (request, response) {
+    meet.findAll().then(function (meetings) {
+        response.status(200).send(meetings);
+
+    });
+});
 // get one category by id
-app.get('/meetings/:id', function(request, response) {
-    meet.findOne({where: {id:request.params.id}}).then(function(category) {
-        if(category) {
-            response.status(200).send(category)
+app.get('/meetings/:id', function (request, response) {
+    meet.findOne({where: {id: request.params.id}}).then(function (category) {
+        if (category) {
+            response.status(200).send(category);
         } else {
-            response.status(404).send()
+            response.status(404).send();
         }
-    })
-})
+    });
+});
 
 //create a new category
-app.post('/meetings', function(request, response) {
-    meet.create(request.body).then(function(category) {
-        response.status(201).send(category)
-    })
-})
+app.post('/meetings', function (request, response) {
+    meet.create(request.body).then(function (category) {
+        response.status(201).send(category);
+    });
+});
 
-app.put('/meetings/:id', function(request, response) {
-    meet.findById(request.params.id).then(function(category) {
-        if(category) {
-            category.update(request.body).then(function(category){
-                response.status(201).send(category)
-            }).catch(function(error) {
-                response.status(200).send(error)
-            })
+app.put('/meetings/:id', function (request, response) {
+    meet.findById(request.params.id).then(function (category) {
+        if (category) {
+            category.update(request.body).then(function (category) {
+                response.status(201).send(category);
+            }).catch(function (error) {
+                response.status(200).send(error);
+            });
         } else {
-            response.status(404).send('Not found')
+            response.status(404).send('Not found');
         }
-    })
-})
+    });
+});
 
-app.delete('/meetings/:id', function(request, response) {
-    meet.findById(request.params.id).then(function(category) {
-        if(category) {
-            category.destroy().then(function(){
-                response.status(204).send()
-            })
+app.delete('/meetings/:id', function (request, response) {
+    meet.findById(request.params.id).then(function (category) {
+        if (category) {
+            category.destroy().then(function () {
+                response.status(204).send('Item deleted');
+            });
         } else {
-            response.status(404).send('Not found')
+            response.status(404).send('Not found');
         }
-    })
-})
+    });
+});
 
-app.get('/toDo', function(request, response) {
+app.get('/toDo', function (request, response) {
     todos.findAll(
         {
             include: [{
                 model: meet,
-                where: { id: Sequelize.col('toDo.category_id') }
+                where: {id: Sequelize.col('toDo.meeting_id')}
             }]
         }
-        
-        ).then(
-            function(toDo) {
-                response.status(200).send(toDo)
-            }
-        )
-})
+    ).then(
+        function (toDo) {
+            response.status(200).send(toDo);
+        }
+    );
+});
 
-app.get('/toDo/:id', function(request, response) {
+app.get('/toDo/:id', function (request, response) {
     todos.findById(request.params.id).then(
-            function(product) {
-                response.status(200).send(product)
-            }
-        )
-})
-
-app.post('/toDo', function(request, response) {
-    todos.create(request.body).then(function(product) {
-        response.status(201).send(product)
-    })
-})
-
-app.put('/toDo/:id', function(request, response) {
-    todos.findById(request.params.id).then(function(product) {
-        if(product) {
-            product.update(request.body).then(function(product){
-                response.status(201).send(product)
-            }).catch(function(error) {
-                response.status(200).send(error)
-            })
-        } else {
-            response.status(404).send('Not found')
+        function (product) {
+            response.status(200).send(product);
         }
-    })
-})
+    );
+});
 
-app.delete('/toDo/:id', function(request, response) {
-    todos.findById(request.params.id).then(function(product) {
-        if(product) {
-            product.destroy().then(function(){
-                response.status(204).send()
-            })
+app.post('/toDo', function (request, response) {
+    todos.create(request.body).then(function (product) {
+        response.status(201).send(product);
+    });
+});
+
+app.put('/toDo/:id', function (request, response) {
+    todos.findById(request.params.id).then(function (product) {
+        if (product) {
+            product.update(request.body).then(function (product) {
+                response.status(201).send(product);
+            }).catch(function (error) {
+                response.status(200).send(error);
+            });
         } else {
-            response.status(404).send('Not found')
+            response.status(404).send('Not found');
         }
-    })
-})
+    });
+});
 
-app.get('/meetings/:id/toDo', function(request, response) {
-    todos.findAll({where:{category_id: request.params.id}}).then(
-            function(toDo) {
-                response.status(200).send(toDo)
-            }
-        )
-})
+app.delete('/toDo/:id', function (request, response) {
+    todos.findById(request.params.id).then(function (product) {
+        if (product) {
+            product.destroy().then(function () {
+                response.status(204).send('Item deleted');
+            });
+        } else {
+            response.status(404).send('Not found');
+        }
+    });
+});
+
+app.get('/meetings/:id/toDo', function (request, response) {
+    todos.findAll({where: {meeting_id: request.params.id}}).then(
+        function (toDo) {
+            response.status(200).send(toDo);
+        }
+    );
+});
+
 
 app.get('/meetings', (req, res) => {
     var category = req.query.category;
@@ -170,7 +177,14 @@ app.get('/meetings', (req, res) => {
                 res.status(500).send('error');
             }
         });
-})
+});
 
+app.use('/', express.static('admin'));
 
-app.listen(8080)
+app.use((err, req, res, next) => {
+    console.warn(err)
+    res.status(500).send(err)
+});
+
+app.listen(8080);
+

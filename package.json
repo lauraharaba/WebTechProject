@@ -27,6 +27,9 @@
     "express": "^4.16.2",
     "mysql2": "^1.4.2",
     "nodeadmin": "^0.1.2",
-    "sequelize": "^4.22.5"
+    "sequelize": "^4.22.5",
+    "unirest": "^0.5.1"
   }
 }
+
+
