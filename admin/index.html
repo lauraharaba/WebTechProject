@@ -1,9 +1,287 @@
 <!DOCTYPE html>
-<html>
+<html lang ="en">
 <head>
-    <title>My first web page</title>
+    <meta charset="utf-8" />
+    <title>Appointment Manager</title>
+ <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     
+     
 </head>
 <body>
-    This is my first web page
+  
+  <input type="text" placeholder="Search..">
+
+<meta charset="utf-8" />
+<title>Appointment Manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="shortcut icon" img src="images/logo.png"/>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap-theme.min.css">
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+    
+    
+    
+
+<div class="site">
+
+	<div id="heading">
+
+		<h1 class="logo"><a href="/"><img src="images/appMan.png" width="95" height="100" /></a></h1>
+
+		<div id="navbox">
+			<nav class="navbar navbar-default navbar-static-top" role="navigation">
+
+
+
+					<div class="container">
+					        <div class="navbar-header">
+					            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					                <span class="sr-only">Toggle navigation</span>
+					                <span class="icon-bar"></span>
+					                <span class="icon-bar"></span>
+					                <span class="icon-bar"></span>
+					            </button>
+					        </div>
+							<div align="right">
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+<ul class = "nav navbar-nav" >
+
+	               <li><a href = "#">Home</a></li>
+	               <li><a href = "#">About us</a></li>
+	               <li><a href = "#">Features</a></li>
+
+	               <li class = "divider"></li>
+	               <li><a href = "#">Help</a></li>
+
+	               <li class = "divider"></li>
+	               <li><a href = "#">Log In</a></li>
+	               
+
+
+
+
+	         </ul>
+				 </div>
+
+
+	</nav>
+		</div>
+
+	</div>
+
+	<div id="promo">
+
+		<div id="promowrapper">
+
+			<img src="images/deskAndLaptop.jpg" />
+
+
+		</div>
+
+	<div id="content row">
+
+		<div class="contentbox col-md-4">
+			<h3><a href="#">See a clear view forward.</a></h3>
+
+			<div align = "center"><p>Visualize your team's project assignments, overtime and time off in one place. </p>
+</div>
+<div align="center">
+			<p><a href="#">Read More!</a></p>
+		</div>
+		</div>
+
+		<div class="contentbox col-md-4">
+			<h3><a href="#">Manage change
+as it happens.</a></h3>
+
+
+			<div align = "center"><p>Collaborate on project plans and resolve conflicts with real-time
+drag and drop scheduling.</p>
+			</div>
+			<div align="center">
+			<p><a href="#">How it works</a></p>
+		</div>
+		</div>
+
+		<div class="contentbox col-md-4 ">
+			<h3><a href="#">Keep your
+team on track.</a></h3>
+			<div align = "center" ><p>Share schedules to your team’s inbox, favorite app or calendar. They'll always be in sync.</p>
+			</div>
+			<div align="center">
+			<p><a href="#">Try it!</a></p>
+		</div>
+		</div>
+
+	</div>
+
+	
+
+	</div>
+
+</div>
+
+ <div style="width:1024px; margin:auto;">
+   
+    <div class="row" >
+        
+    <form class="col s12"  id="postBook">
+      <div class="wrapper">
+        <div class="input-field col s6">
+          <input type="text" name="name" class="validate">
+          <label for="name">Meeting</label>
+        </div>
+        <div class="input-field col s6">
+          <input  id="last_name" type="text" name="description" class="validate">
+          <label for="description">Description</label>
+        </div>
+        
+      </div>
+      
+   <div class="row">
+    <button id="btnSubmit" class="btn waves-effect waves-light" type="submit" >Submit
+        <i class="material-icons right">cloud</i>
+    </button>
+</div>
+    </form>
+   
+   
+  </div>
+    
+</div>
+    
+     <div id="myTable"></div>
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+     
+     
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+    <script>
+        axios.get('/meetings')
+        .then(function (response) {
+          console.log(response);
+        CreateTableFromJSON(response.data);
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
+             function CreateTableFromJSON(data) {
+           
+            var col = [];
+            for (var i = 0; i < data.length; i++) {
+                for (var key in data[i]) {
+                    if (col.indexOf(key) === -1) {
+                        col.push(key);
+                    }
+                }
+            }
+        
+            // CREATE DYNAMIC TABLE.
+            var table = document.createElement("table");
+        
+            // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+        
+            var tr = table.insertRow(-1);                   // TABLE ROW.
+        
+            for (var i = 0; i < col.length; i++) {
+                var th = document.createElement("th");      // TABLE HEADER.
+                th.innerHTML = col[i];
+                tr.appendChild(th);
+            }
+        
+            // ADD JSON DATA TO THE TABLE AS ROWS.
+            for (var i = 0; i < data.length; i++) {
+        
+                tr = table.insertRow(-1);
+        
+                for (var j = 0; j < col.length; j++) {
+                    var tabCell = tr.insertCell(-1);
+                    tabCell.innerHTML = data[i][col[j]];
+                }
+            }
+        
+            // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+            var divContainer = document.getElementById("myTable");
+            divContainer.innerHTML = "";
+            divContainer.appendChild(table);
+        }
+        
+        
+       
+        
+        
+    </script>
+    <div style="width:1024px; margin:auto;">
+    <script>
+	const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+        data[element.name] = element.value;
+        return data;
+        }, {});
+        
+        const addMeeting = event => {
+         event.preventDefault();
+         const data = formToJSON(form.elements);
+		 
+		   axios.post('/meetings',data)
+        .then(function (response) {
+      location.reload();
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
+        }
+		
+		 const form = document.getElementById('postBook');
+        form.addEventListener('submit', addMeeting);
+	
+	</script>
+	
+	
+	</div>
+	
+
+
+	</div>
+	<div id="footer">
+
+	<div id="footercontent" style="text-align:center">
+		<p><img  src="images/fbLogo.ico " width=6%><img src="images/twLogo.ico" width=6%><img src="images/ytLogo.ico" width=6%><img src="images/mailLogo.ico" width=6%></p>
+	<p>Appointment Manager Company</p>
+	<p> Bulevardul Lascar Catargiu, Nr. 54, Sector 1, Bucuresti, Romania </p>
+	<p> [Laura Haraba]</p>
+
+	</div>
+
+	</div>
 </body>
 </html>

@@ -1,0 +1,260 @@
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+
+
+.navbar-header{
+	background-color:transparent !important;
+	background-image: none !important
+;
+}
+
+body {
+	 font-family: 'Oswald', sans-serif;
+	width: 100%
+}
+
+
+.nav li a:link {
+	color: #E0F8F7;
+	text-decoration:none;
+	font-size: 1em;
+	font-weight:100%;
+}
+
+.navbar-default {
+	    background-image:none !important;
+
+		 box-shadow: none !important;
+		     border-color:transparent !important;
+	background-color: transparent !important
+
+}
+
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body{
+  background: #f2f2f2;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.search {
+  width: 100%;
+  position: relative
+}
+
+.searchTerm {
+  float: left;
+  width: 100%;
+  border: 3px solid #00B4CC;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+.searchButton {
+  position: absolute;  
+  right: -50px;
+  width: 40px;
+  height: 36px;
+  border: 1px solid #00B4CC;
+  background: #00B4CC;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{
+	border-color:transparent !important;
+}
+.navbar-toggle{
+    text-align: center !important;
+}
+.navbar{
+	border:none !important;
+
+}
+.navbar-inverse .navbar-toggle{
+	border-color: none;
+}
+
+
+h2 {
+	color: #2b737a;
+	font-size: 1em;
+	font-weight: 100;
+	margin-bottom: .5em;
+}
+h3 {
+	color: #2b737a;
+	font-size: 1em;
+	font-weight: 500;
+	margin-bottom: .5em;
+	line-height: 1.2em;
+}
+p {
+	font-size: 1em;
+	line-height: 1.4em;
+
+}
+.contentbox p {
+	margin-bottom: 1.2em;
+}
+
+
+.site {
+	width: 100%;
+}
+#heading {
+	background-color: #fff;
+	width: 75%;
+	margin: 1.5em auto;
+	text-align:right;
+
+}
+#heading ul {
+	display:inline;
+}
+.logo {
+	float:left;
+	padding-bottom: 1em;
+}
+#navbox {
+	padding-top: 6em;
+}
+.nav {
+
+}
+.nav li {
+	display: inline;
+	margin-left: 1.4em;
+}
+#promo {
+	clear:both;
+
+	text-align:center;
+	width: 100%;
+}
+
+
+#promowrapper img {
+    margin: 0 auto;
+    width: 100vw;
+}
+
+#promo img {
+	margin: 2em 0;
+}
+#content {
+	background-color: #fff;
+	width: 75%;
+	margin: auto;
+}
+.contentbox {
+	width: 31.25%;
+	float:left;
+	padding: 2em 3.125% 2em 0;
+}
+.contentbox.last {
+
+	padding-right: 0;
+}
+.contentbox a {
+	color: #3C374A;
+	text-decoration: none;
+	font-weight: 700;
+	 font-family: 'Oswald', sans-serif;
+}
+#footer {
+	clear: both;
+	background-color: #3C374A;
+	padding: 1em;
+	letter-spacing: .1em;
+	font-weight: 100;
+}
+
+
+
+#footercontent {
+	width: 75%;
+	margin: auto;
+	color: #fff;
+	 font-family: 'Oswald', sans-serif;
+}
+#footer a:link {
+	color: #fff;
+}
+
+
+
+@media screen and (max-width: 1100px) {
+	#navbox {
+clear: left;
+ padding-top: 0;
+ text-align: center;
+	}
+
+}
+
+
+
+#wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+
+
+
+
+@media screen and (max-width: 500px) {
+	.nav li {
+		display: block;
+        margin-left: 0;
+        padding-bottom: 5px;
+
+	}
+	.logo {
+		float: none;
+        text-align: center;
+
+	}}
+
+	@media screen and (max-width:1273px){
+	.contentbox {
+		width: 100%;
+	float: none;
+	padding: 1.5em 0 0 0;
+
+}
+}
